@@ -1,6 +1,7 @@
 package racingcar;
 
-import java.util.Scanner;
+import camp.nextstep.edu.missionutils.Console;
+import camp.nextstep.edu.missionutils.Randoms;
 
 public class Application {
     public static void main(String[] args) {
@@ -10,13 +11,12 @@ public class Application {
         errCheck_carsList(carsList);
         int tryNum = tryNumInput();
         errCheck_tryNum(tryNum);
+        Game(carsList, tryNum);
     }
     
     public static String carInput() { // 사용자 입력 (자동차 목록)
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("경주를 진행할 자동차의 이름을 ','를 기준으로 분리하여 입력해주세요.(이름은 5자 이하만 가능합니다.)");
-        String cars = scanner.nextLine();
+        String cars = Console.readLine();
         return cars;
     }
     
@@ -26,10 +26,8 @@ public class Application {
     }
     
     public static int tryNumInput() { // 전진 시도 횟수 입력받기
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("몇번의 이동을 할 지 횟수를 입력해주세요.");
-        int tryNum = scanner.nextInt();
+        int tryNum = Integer.parseInt(Console.readLine());
         return tryNum;
     }
 
@@ -50,4 +48,41 @@ public class Application {
         }
         return;
     }
+    
+    public static void Game(String[] carsList, int tryNum) {
+        int[] moveCnt = new int[carsList.length];
+        for (int i = 0; i < carsList.length; i++){
+            moveCnt[i] = 0;
+        }
+        for (int i = 0; i < tryNum; i++) {
+            moveCnt = move(carsList, moveCnt);
+            printEachMove(carsList, moveCnt);
+        }
+    }
+
+    public static int[] move(String[] carsList, int[] moveCnt) {
+        for (int i = 0; i < carsList.length; i++) {
+           moveCnt = randomMove(moveCnt, i);
+        }
+        return moveCnt;
+    }
+
+    public static int[] randomMove(int[] moveCnt, int i) {
+        if (Randoms.pickNumberInRange(0,9) >= 4) {
+            moveCnt[i]++;
+        }
+        return moveCnt;
+    }
+
+    public static void printEachMove(String[] carsList, int[] moveCnt){
+        for (int i = 0; i < carsList.length; i++) {
+            System.out.print(carsList[i] + " : ");
+            for (int j =0; j < moveCnt[i]; j++){
+                System.out.print("-");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+    
 }
