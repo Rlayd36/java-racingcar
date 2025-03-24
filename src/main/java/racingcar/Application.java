@@ -2,8 +2,9 @@ package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
-import java.util.LinkedList;
-import java.util.Queue;
+// import java.util.LinkedList;
+// import java.util.Queue;
+import java.util.Arrays;
 
 public class Application {
     public static void main(String[] args) {
@@ -66,10 +67,17 @@ public class Application {
 
         String[] winner = checkWinner(carsList, moveCnt);
         System.out.print("최종 우승자 : ");
-        for (int i = 0; i < winner.length - 1; i++) {
+        int winnerCnt = 0;
+        for(int i=0; i < winner.length; i++) {
+            if (winner[i] == null){
+                break;
+            }
+            winnerCnt++;
+        }
+        for (int i = 0; i < winnerCnt-1; i++) {
             System.out.print(winner[i] + ", ");
         }
-        System.out.println(winner[winner.length-1]);
+        System.out.println(winner[winnerCnt-1]);
 
     }
 
@@ -99,6 +107,7 @@ public class Application {
     }
 
     public static String[] checkWinner(String[] carsList, int[] moveCnt) {
+        /*
         Queue<String> winnerQueue = new LinkedList<>();
         int maxValue = 0;
 
@@ -108,12 +117,37 @@ public class Application {
             } else if (moveCnt[i] > maxValue) {
                 winnerQueue.clear();
                 winnerQueue.add(carsList[i]);
+                maxValue = moveCnt[i];
             }
         }
+        System.out.println("winnerQueue = " + winnerQueue.size());
         String[] winner = new String[winnerQueue.size()];
-        for (int i = 0; i < winnerQueue.size(); i++) {
-            winner[i] = winnerQueue.poll();
+
+        for (int i = 0; i < winnerQueue.size() + 1; i++) {
+            winner[i] = winnerQueue.remove();
         }
+        System.out.println("winner = " + winner.length);
+        for (int i = 0; i < winner.length; i++) {
+            System.out.print(winner[i] + " ");
+        }
+        */
+        int maxValue = 0;
+        int cnt = 0;
+        String[] winner = new String[moveCnt.length];
+
+        for (int i = 0; i < moveCnt.length; i++) {
+            if(moveCnt[i] == maxValue) {
+                winner[cnt] = carsList[i];
+                cnt++;
+            } else if (moveCnt[i] > maxValue) {
+                Arrays.fill(winner, null);
+                cnt = 0;
+                winner[cnt] = carsList[i];
+                cnt++;
+                maxValue = moveCnt[i];
+            }
+        }
+
 
         return winner;
     }
