@@ -2,6 +2,8 @@ package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Application {
     public static void main(String[] args) {
@@ -11,7 +13,10 @@ public class Application {
         errCheck_carsList(carsList);
         int tryNum = tryNumInput();
         errCheck_tryNum(tryNum);
+        // 여기까지 입력
+
         Game(carsList, tryNum);
+
     }
     
     public static String carInput() { // 사용자 입력 (자동차 목록)
@@ -58,6 +63,14 @@ public class Application {
             moveCnt = move(carsList, moveCnt);
             printEachMove(carsList, moveCnt);
         }
+
+        String[] winner = checkWinner(carsList, moveCnt);
+        System.out.print("최종 우승자 : ");
+        for (int i = 0; i < winner.length - 1; i++) {
+            System.out.print(winner[i] + ", ");
+        }
+        System.out.println(winner[winner.length-1]);
+
     }
 
     public static int[] move(String[] carsList, int[] moveCnt) {
@@ -84,5 +97,25 @@ public class Application {
         }
         System.out.println();
     }
-    
+
+    public static String[] checkWinner(String[] carsList, int[] moveCnt) {
+        Queue<String> winnerQueue = new LinkedList<>();
+        int maxValue = 0;
+
+        for (int i = 0; i < moveCnt.length; i++) {
+            if(moveCnt[i] == maxValue) {
+                winnerQueue.add(carsList[i]);
+            } else if (moveCnt[i] > maxValue) {
+                winnerQueue.clear();
+                winnerQueue.add(carsList[i]);
+            }
+        }
+        String[] winner = new String[winnerQueue.size()];
+        for (int i = 0; i < winnerQueue.size(); i++) {
+            winner[i] = winnerQueue.poll();
+        }
+
+        return winner;
+    }
+
 }
