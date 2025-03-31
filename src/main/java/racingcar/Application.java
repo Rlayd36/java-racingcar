@@ -7,8 +7,8 @@ import java.util.Arrays;
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-        String carsStr = carInput();
-        String carsList[] = carSplit(carsStr);
+        String inputCarsName = carInput();
+        String carsList[] = carSplit(inputCarsName);
         errCheck_carsList(carsList);
         int tryNum = tryNumInput();
         errCheck_tryNum(tryNum);
