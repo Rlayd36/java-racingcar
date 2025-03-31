@@ -32,8 +32,8 @@ public class Application {
     }
 
     public static void errCheck_carsList(String[] carsList) throws IllegalArgumentException{ // 입력한 차 이름이 5글자 이하인지 체크
-        for (String s : carsList) {
-            if (s.length() > 5) {
+        for (String carName : carsList) {
+            if (carName.length() > 5) {
                 throw new IllegalArgumentException("자동차의 이름이 5글자를 넘습니다.");
             }
         }
