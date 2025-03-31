@@ -12,9 +12,7 @@ public class Application {
         errCheck_carsList(carsList);
         int tryNum = tryNumInput();
         errCheck_tryNum(tryNum);
-
         Game(carsList, tryNum);
-
     }
     
     public static String carInput() { // 사용자 입력 (자동차 목록)
@@ -107,7 +105,6 @@ public class Application {
         int maxValue = 0;
         int cnt = 0;
         String[] winner = new String[moveCnt.length];
-
         for (int i = 0; i < moveCnt.length; i++) {
             if(moveCnt[i] == maxValue) {
                 winner[cnt] = carsList[i];
@@ -120,8 +117,6 @@ public class Application {
                 maxValue = moveCnt[i];
             }
         }
-
-
         return winner;
     }
 
