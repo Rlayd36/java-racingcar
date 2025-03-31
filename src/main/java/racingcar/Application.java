@@ -2,28 +2,27 @@ package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
-import java.util.Arrays;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-        carsInfoInput();
+        Car[] cars = carsInfoInput();
         int tryNum = tryNumInput();
-        Game(carsList, tryNum);
+        Game(cars, tryNum);
     }
     
-    public static void carsInfoInput() { // 사용자 입력 (자동차 목록)
+    public static Car[] carsInfoInput() { // 사용자 입력 (자동차 목록)
         System.out.println("경주를 진행할 자동차의 이름을 ','를 기준으로 분리하여 입력해주세요.(이름은 5자 이하만 가능합니다.)");
-        String[] carList = carSplit(Console.readLine());
+        String[] carList = Console.readLine().split(",");
         validateCarsList(carList);
         Car[] cars = new Car[carList.length];
         for (int i = 0; i < carList.length; i++) {
             cars[i] = new Car(carList[i], 0);
         }
-    }
-    
-    public static String[] carSplit(String carsStr) { // 사용자 한테 입려받은 문자열 "," 기준으로 찢기
-        return carsStr.split(",");
+        return cars;
     }
     
     public static int tryNumInput() { // 전진 시도 횟수 입력받기
@@ -51,74 +50,66 @@ public class Application {
         return;
     }
     
-    public static void Game(String[] carsList, int tryNum) {
-        int[] moveCnt = new int[carsList.length];
-        for (int i = 0; i < carsList.length; i++){
-            moveCnt[i] = 0;
-        }
-        for (int i = 0; i < tryNum; i++) {
-            moveCnt = move(carsList, moveCnt);
-            printEachMove(carsList, moveCnt);
-        }
-
-        String[] winner = checkWinner(carsList, moveCnt);
-        System.out.print("최종 우승자 : ");
-        int winnerCnt = 0;
-        for(int i=0; i < winner.length; i++) {
-            if (winner[i] == null){
-                break;
-            }
-            winnerCnt++;
-        }
-        for (int i = 0; i < winnerCnt-1; i++) {
-            System.out.print(winner[i] + ", ");
-        }
-        System.out.println(winner[winnerCnt-1]);
-
-    }
-
-    public static int[] move(String[] carsList, int[] moveCnt) {
-        for (int i = 0; i < carsList.length; i++) {
-           moveCnt = randomMove(moveCnt, i);
-        }
-        return moveCnt;
-    }
-
-    public static int[] randomMove(int[] moveCnt, int i) {
-        if (Randoms.pickNumberInRange(0,9) >= 4) {
-            moveCnt[i]++;
-        }
-        return moveCnt;
-    }
-
-    public static void printEachMove(String[] carsList, int[] moveCnt){
-        for (int i = 0; i < carsList.length; i++) {
-            System.out.print(carsList[i] + " : ");
-            for (int j =0; j < moveCnt[i]; j++){
-                System.out.print("-");
-            }
+    public static void Game(Car[] cars, int tryNum) {
+        for(int i = 0; i < tryNum; i++) {
+            moveAndDisplayStatus(cars);
             System.out.println();
         }
-        System.out.println();
+        displayWinner(cars);
     }
 
-    public static String[] checkWinner(String[] carsList, int[] moveCnt) {
-        int maxValue = 0;
-        int cnt = 0;
-        String[] winner = new String[moveCnt.length];
-        for (int i = 0; i < moveCnt.length; i++) {
-            if(moveCnt[i] == maxValue) {
-                winner[cnt] = carsList[i];
-                cnt++;
-            } else if (moveCnt[i] > maxValue) {
-                Arrays.fill(winner, null);
-                cnt = 0;
-                winner[cnt] = carsList[i];
-                cnt++;
-                maxValue = moveCnt[i];
+    public static void moveAndDisplayStatus(Car[] cars) {
+        for (int i = 0; i < cars.length; i++) {
+           randomMove(cars[i]);
+        }
+        for (Car car : cars) {
+            car.displayCarStatus();
+        }
+    }
+
+    public static void randomMove(Car car) {
+        if (Randoms.pickNumberInRange(0,9) >= 4) {
+            car.go();
+        }
+    }
+
+    public static void displayWinner(Car[] cars) {
+        checkWinner(cars);
+
+        Queue<Car> q = new LinkedList<>();
+
+        for (Car car : cars) {
+            if(car.winnerFlag == 1) {
+                q.add(car);
             }
         }
-        return winner;
+
+        System.out.print("최종 우승자 : ");
+        for (int i = 0; i < q.size() - 1; i++) {
+            System.out.print(q.remove().carName + ", ");
+        }
+        System.out.println(q.remove().carName);
+    }
+
+
+    public static void checkWinner(Car[] cars) {
+        int maxValue = 0;
+
+        for (Car car : cars) {
+            if(maxValue < car.score) {
+                maxValue = car.score;
+                clearWinnerList(cars);
+                car.checkWinnerFlag();
+            } else if (maxValue == car.score) {
+                car.checkWinnerFlag();
+            }
+        }
+    }
+
+    public static void clearWinnerList(Car[] cars) {
+        for (Car car : cars) {
+            car.clearWinnerFlag();
+        }
     }
 
 }
