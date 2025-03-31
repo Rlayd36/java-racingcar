@@ -22,8 +22,7 @@ public class Application {
     }
     
     public static String[] carSplit(String carsStr) { // 사용자 한테 입려받은 문자열 "," 기준으로 찢기
-        String[] carsList = carsStr.split(",");
-        return carsList;
+        return carsStr.split(",");
     }
     
     public static int tryNumInput() { // 전진 시도 횟수 입력받기
