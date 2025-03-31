@@ -2,8 +2,6 @@ package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
-// import java.util.LinkedList;
-// import java.util.Queue;
 import java.util.Arrays;
 
 public class Application {
@@ -14,7 +12,6 @@ public class Application {
         errCheck_carsList(carsList);
         int tryNum = tryNumInput();
         errCheck_tryNum(tryNum);
-        // 여기까지 입력
 
         Game(carsList, tryNum);
 
@@ -107,30 +104,6 @@ public class Application {
     }
 
     public static String[] checkWinner(String[] carsList, int[] moveCnt) {
-        /*
-        Queue<String> winnerQueue = new LinkedList<>();
-        int maxValue = 0;
-
-        for (int i = 0; i < moveCnt.length; i++) {
-            if(moveCnt[i] == maxValue) {
-                winnerQueue.add(carsList[i]);
-            } else if (moveCnt[i] > maxValue) {
-                winnerQueue.clear();
-                winnerQueue.add(carsList[i]);
-                maxValue = moveCnt[i];
-            }
-        }
-        System.out.println("winnerQueue = " + winnerQueue.size());
-        String[] winner = new String[winnerQueue.size()];
-
-        for (int i = 0; i < winnerQueue.size() + 1; i++) {
-            winner[i] = winnerQueue.remove();
-        }
-        System.out.println("winner = " + winner.length);
-        for (int i = 0; i < winner.length; i++) {
-            System.out.print(winner[i] + " ");
-        }
-        */
         int maxValue = 0;
         int cnt = 0;
         String[] winner = new String[moveCnt.length];
