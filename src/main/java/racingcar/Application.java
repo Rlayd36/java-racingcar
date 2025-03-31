@@ -9,9 +9,9 @@ public class Application {
         // TODO: 프로그램 구현
         String inputCarsName = carInput();
         String carsList[] = carSplit(inputCarsName);
-        errCheck_carsList(carsList);
+        validateCarsList(carsList);
         int tryNum = tryNumInput();
-        errCheck_tryNum(tryNum);
+        validateTryNum(tryNum);
         Game(carsList, tryNum);
     }
     
@@ -31,7 +31,7 @@ public class Application {
         return tryNum;
     }
 
-    public static void errCheck_carsList(String[] carsList) throws IllegalArgumentException{ // 입력한 차 이름이 5글자 이하인지 체크
+    public static void validateCarsList(String[] carsList) throws IllegalArgumentException{ // 입력한 차 이름이 5글자 이하인지 체크
         for (String carName : carsList) {
             if (carName.length() > 5) {
                 throw new IllegalArgumentException("자동차의 이름이 5글자를 넘습니다.");
@@ -40,7 +40,7 @@ public class Application {
         return;
     }
 
-    public static void errCheck_tryNum(int tryNum) throws IllegalArgumentException{ // 입력한 시도 횟수가 0이거나, 음수인지 체크
+    public static void validateTryNum(int tryNum) throws IllegalArgumentException{ // 입력한 시도 횟수가 0이거나, 음수인지 체크
         if (tryNum < 0) {
             throw new IllegalArgumentException("시도 횟수에 음수 입력");
         } else if (tryNum == 0) {
