@@ -17,6 +17,9 @@ public class Application {
         String[] carList = carSplit(Console.readLine());
         validateCarsList(carList);
         Car[] cars = new Car[carList.length];
+        for (int i = 0; i < carList.length; i++) {
+            cars[i] = new Car(carList[i], 0);
+        }
     }
     
     public static String[] carSplit(String carsStr) { // 사용자 한테 입려받은 문자열 "," 기준으로 찢기
