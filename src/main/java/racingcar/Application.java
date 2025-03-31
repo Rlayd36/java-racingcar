@@ -7,18 +7,16 @@ import java.util.Arrays;
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-        String inputCarsName = carInput();
-        String carsList[] = carSplit(inputCarsName);
-        validateCarsList(carsList);
+        carsInfoInput();
         int tryNum = tryNumInput();
-        validateTryNum(tryNum);
         Game(carsList, tryNum);
     }
     
-    public static String carInput() { // 사용자 입력 (자동차 목록)
+    public static void carsInfoInput() { // 사용자 입력 (자동차 목록)
         System.out.println("경주를 진행할 자동차의 이름을 ','를 기준으로 분리하여 입력해주세요.(이름은 5자 이하만 가능합니다.)");
-        String cars = Console.readLine();
-        return cars;
+        String[] carList = carSplit(Console.readLine());
+        validateCarsList(carList);
+        Car[] cars = new Car[carList.length];
     }
     
     public static String[] carSplit(String carsStr) { // 사용자 한테 입려받은 문자열 "," 기준으로 찢기
@@ -28,6 +26,7 @@ public class Application {
     public static int tryNumInput() { // 전진 시도 횟수 입력받기
         System.out.println("몇번의 이동을 할 지 횟수를 입력해주세요.");
         int tryNum = Integer.parseInt(Console.readLine());
+        validateTryNum(tryNum);
         return tryNum;
     }
 
